@@ -81,8 +81,6 @@ const ChatContents = ({ loading }: { loading: boolean }) => {
         scrollToBottom();
     }, [loading])
 
-    console.log(totalChats);
-
     const Loader = () => {
         return (
             <div role="status">
@@ -96,7 +94,6 @@ const ChatContents = ({ loading }: { loading: boolean }) => {
     };
 
     const Message = (imgPath: string, message: string, is_kyc_verified: boolean, self: boolean) => {
-        console.log(imgPath, self)
         return (
             <>
                 {!self ? (
