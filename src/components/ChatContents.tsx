@@ -107,6 +107,11 @@ const ChatContents = ({ chats, loading }: { chats: APIContentsProps, loading: bo
             </div>
         ) : (
             <div className='flex flex-col gap-6 my-7'>
+                <div className="flex items-center px-5">
+                    <span className="flex-grow border-b border-gray-300"></span>
+                    <span className="mx-4 text-gray-600">24th Jul, 2024</span>
+                    <span className="flex-grow border-b border-gray-300"></span>
+                </div>
                 {chats.chats.slice(Math.max(0, chats.chats.length - page * 5), Math.max(0, chats.chats.length)).map(chat => (
                     <span key={chat.id}>
                         {Message(chat.sender.image, chat.message, chat.sender.is_kyc_verified, chat.sender.self)}
