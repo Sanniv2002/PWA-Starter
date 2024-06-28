@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 import verified from '../assets/verified.svg';
 
 interface APIContentsProps {
@@ -20,9 +21,10 @@ interface APIContentsProps {
     to: string
 }
 
-const ChatContents = ({ chats, loading }: { chats: APIContentsProps, loading: boolean }) => {
+const ChatContents = ({ loading }: { loading: boolean }) => {
 
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
+    const [totalChats, setTotalChats] = useState<APIContentsProps['chats']>();
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -30,6 +32,19 @@ const ChatContents = ({ chats, loading }: { chats: APIContentsProps, loading: bo
             chatContainerRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
     };
+
+    useEffect(() => {
+        const fetchChats = async () => {
+          try {
+              const response = await axios.get(`https://qa.corider.in/assignment/chat?page=${page}`);
+              totalChats ? setTotalChats([ ...response.data.chats, ...totalChats]) : setTotalChats(response.data.chats);
+          } catch (error) {
+              console.error('Error fetching chats:', error);
+          }
+        };
+    
+        fetchChats();
+      }, [page]);
 
     useEffect(() => {
         let scrollBefore = 0;
@@ -64,7 +79,9 @@ const ChatContents = ({ chats, loading }: { chats: APIContentsProps, loading: bo
     //Effect to initally scroll to the bottom of the chat
     useEffect(() => {
         scrollToBottom();
-    }, [chats])
+    }, [loading])
+
+    console.log(totalChats);
 
     const Loader = () => {
         return (
@@ -79,9 +96,10 @@ const ChatContents = ({ chats, loading }: { chats: APIContentsProps, loading: bo
     };
 
     const Message = (imgPath: string, message: string, is_kyc_verified: boolean, self: boolean) => {
+        console.log(imgPath, self)
         return (
             <>
-                {self ? (
+                {!self ? (
                     <div className='flex gap-2 justify-start ps-5'>
                         <span>
                             <div className="relative">
@@ -112,7 +130,7 @@ const ChatContents = ({ chats, loading }: { chats: APIContentsProps, loading: bo
                     <span className="mx-4 text-gray-600">24th Jul, 2024</span>
                     <span className="flex-grow border-b border-gray-300"></span>
                 </div>
-                {chats.chats.slice(Math.max(0, chats.chats.length - page * 5), Math.max(0, chats.chats.length)).map(chat => (
+                {totalChats?.map(chat => (
                     <span key={chat.id}>
                         {Message(chat.sender.image, chat.message, chat.sender.is_kyc_verified, chat.sender.self)}
                     </span>

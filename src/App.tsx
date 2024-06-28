@@ -64,7 +64,7 @@ function App() {
         <Details from={chats?.from} to={chats?.to} />
       </div>
       <div className='flex-grow overflow-y-auto'>
-        <ChatContents chats={chats} loading={loading} />
+        <ChatContents loading={loading} />
       </div>
       <div className='sticky bottom-0 z-10 bg-[#FAF9F4] px-5 pb-3'>
         <SendMessage />
