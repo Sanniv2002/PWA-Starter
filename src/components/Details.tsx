@@ -8,7 +8,7 @@ import members from '../assets/members.svg';
 import phone from '../assets/phone.svg';
 import report from '../assets/report.svg';
 
-export default function Details({from, to}: {from: string, to: string}) {
+export default function Details() {
 
     const [active, setActive] = useState(false)
 
@@ -42,12 +42,12 @@ export default function Details({from, to}: {from: string, to: string}) {
         </div>
     }
 
-    return <div className="flex justify-between min-w-full pe-3 ps-5 py-3 border-b-2">
+    return <div className="flex justify-between min-w-full pe-3 ps-5 py-3 border-b-2 sticky top-0 z-10 bg-[#FAF9F4] pt-4">
         <section className='flex gap-2'>
             {collectiveAvatar()}
             <span className='flex flex-col pl-2'>
-                <h2 className='text-[#606060] font-semibold'>From <span className='text-black'>{from}</span></h2>
-                <h2 className='text-[#606060] font-semibold'>To <span className='text-black'>{to}</span></h2>
+                <h2 className='text-[#606060] font-semibold'>From <span className='text-black'>IGI Airport, T3</span></h2>
+                <h2 className='text-[#606060] font-semibold'>To <span className='text-black'>Sector 28</span></h2>
             </span>
         </section>
         <div className="relative">
